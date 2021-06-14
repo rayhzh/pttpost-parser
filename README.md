@@ -12,7 +12,7 @@ Pttpost-parser is a Python library for collecting articles from [ptt website](ht
 ## Installation
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install this pacakage.
 ```bash
-pip install -r requirement.txt
+pip install -r requirements.txt
 ```
 
 
