@@ -1,7 +1,5 @@
 # pttpost-parser
-
-Pttpost-parser is a Python library for collecting articles from [ptt website](https://www.ptt.cc/bbs/index.html).
-
+Python爬蟲練習，用asyncio + requests + BeautifulSoup快速擷取Ptt文章資訊 (ex: 作者、內容、詳細推文內容、IP)。支援關鍵字、推文數、作者搜尋
 
 ## Features
 - Asynchronus request
@@ -10,14 +8,20 @@ Pttpost-parser is a Python library for collecting articles from [ptt website](ht
 
 
 ## Installation
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install this pacakage.
+Git clone下來後，用pip安裝需要的libaray
 ```bash
 pip install -r requirements.txt
 ```
 
 
 ## Usage
-Collect posts from the specific board with keyword search.
+在`PttSpider`裡面要給一個"PTT board" argument，之後就能call `parse`搜尋貼文了，`parse` 有三個option可以用，分別是
+1. keyword: 標題關鍵字
+2. recommend: 推文數 ex: 10, 90, -10
+3. author: 作者名稱
+
+三種搜尋方式可以混用。
+`parse`搜尋完後，會回傳`PttPost`的List。
 ```python
 from ptt.parser import PttSpider, PostReader
 
@@ -27,7 +31,7 @@ for post in posts:
     print(f'[{post.like}] {post.title} -{post.author}')
 ```
 
-Get detail information from a post.
+如果想要`PttPost`的詳細資訊，可以用`PostReader`，拿到文章的詳細資訊，以及推文資訊。
 ```python
 reader = PostReader()
 
@@ -37,7 +41,15 @@ print(f'{article.body}')
 
 ```
 
-Read mutiple posts
+文章推文的詳細資訊。
+```python
+pushes = article.pushes
+for push in pushes[:10]:
+    print(f"{push.push_tag} {push.content}-{push.user}")
+```
+
+
+如果想要一次拿到多個`PttPost`的詳細資訊，可以用`read_posts`，應用asynchronous http request可以加速資料擷取。
 ```python
 articles = reader.read_posts(posts)
 for article in articles:
@@ -46,12 +58,6 @@ for article in articles:
     print(f'{article.body}')
 ```
 
-Get pushes contents from the article.
-```python
-pushes = article.pushes
-for push in pushes[:10]:
-    print(f"{push.push_tag} {push.content}-{push.user}")
-```
 
 
 ## Contributing
