@@ -10,9 +10,21 @@ Python爬蟲練習，用asyncio + requests + BeautifulSoup快速擷取Ptt文章�
 ## Installation
 Git clone下來後，用pip安裝需要的libaray
 ```bash
-pip install -r requirements.txt
+pip install .
 ```
 
+## Example
+在安裝完後可以用 `python ./example/post_downloader.py` 來下載ptt文章,預設搜尋條件為八卦版的50篇文章,以下為範例:
+![image](https://user-images.githubusercontent.com/28876380/124393835-001c7b00-dd2f-11eb-89d6-8f5b71ad5bfa.png)
+執行後在./download可以看到下載的檔案
+
+如果想要要搜尋特定的看板(ex: -board nba), 設定作者(ex: -author RoseC), 標題關鍵字, 推文數等等：
+可以下 `python ./example/post_downloader.py -h`看用法
+![image](https://user-images.githubusercontent.com/28876380/124393995-e2034a80-dd2f-11eb-8eb6-27c7d2432ea3.png)
+
+以下為範例：`python ./examples/post_downloader.py -board nba -author RoseC -like 50`
+![image](https://user-images.githubusercontent.com/28876380/124394023-03643680-dd30-11eb-9103-ff658776f7c1.png)
+執行完後可以去 ./download/nba_author_RoseC_like_50 看所有的文章了
 
 ## Usage
 在`PttSpider`裡面要給一個"PTT board" argument，之後就能call `parse`搜尋貼文了，`parse` 有三個option可以用，分別是
