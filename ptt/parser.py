@@ -186,4 +186,8 @@ class PostReader:
                 for post in posts
             ]
             concurrent.futures.wait(res)
-        return cast(List[PttArticle], [r.result() for r in res if r.result()])
+        return cast(
+            List[PttArticle],
+            [r.result() for r in res
+             if r.result() and r.result().tag.title.string != '404']
+        )
