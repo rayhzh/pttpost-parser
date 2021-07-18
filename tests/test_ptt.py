@@ -1,7 +1,9 @@
 import pytest
 from ptt.parser import PttSpider, UnknownBoardError
 from ptt.article import PttArticle
+from ptt.download import PostDownloader
 
+from pathlib import Path
 
 @pytest.mark.webreq
 def test_connect():
@@ -37,3 +39,13 @@ def test_article(article_tag):
     assert article.pushes[99].content == '鹿過網 這篇被挖出來當先知'
     assert article.pushes[98].push_tag == '→'
     assert article.pushes[97].time == '06/12 21:22'
+
+
+def test_download(tmpdir):
+    with tmpdir.as_cwd():
+        root_p = Path()
+        downloader = PostDownloader('NBA')
+        downloader.download(10)
+        assert len(list((root_p/'download'/'NBA').iterdir())) == 10
+        downloader.download(5, recommend=80)
+        assert len(list((root_p/'download'/'NBA_recommend_80').iterdir())) == 5
